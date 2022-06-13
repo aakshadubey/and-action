@@ -1,0 +1,307 @@
+<!doctype html>
+<html>
+	<head>
+		<title>And Action!</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="static/assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="static/assets/css/noscript.css" /></noscript>
+	</head>
+    <body>
+        <div class="content">
+            <h2 style ="color:rgb(219, 229, 219); padding-top:40px"> 
+            {{ list_name }} <a href="#name"></a>
+            </h2> 
+        </div>
+        <label class="toggleSwitch nolabel" onclick="">
+            <input type="checkbox" checked />
+            <a></a>
+            <span>
+                <span class="left-span">Public</span>
+                <span class="right-span">Private</span>
+                
+            </span>											
+        </label>
+        <form role="search" id="form">
+<input id="qurybox" type="search" class="form-control" id="title" placeholder="Search..." onkeyup="getanswer(document.getElementById('qurybox').value)" >
+<button>
+    <svg viewBox="0 0 1024 1024"><path class="path1" d="M848.471 928l-263.059-263.059c-48.941 36.706-110.118 55.059-177.412 55.059-171.294 0-312-140.706-312-312s140.706-312 312-312c171.294 0 312 140.706 312 312 0 67.294-24.471 128.471-55.059 177.412l263.059 263.059-79.529 79.529zM189.623 408.078c0 121.364 97.091 218.455 218.455 218.455s218.455-97.091 218.455-218.455c0-121.364-103.159-218.455-218.455-218.455-121.364 0-218.455 97.091-218.455 218.455z"></path></svg>
+  </button>
+  </form>
+<div id="answer"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+</script>
+<script> var data;
+    function getanswer(q) {
+        if (q===""){
+            document.getElementById('answer').innerHTML = "";
+        }
+        else {
+
+        
+        $.get("https://www.omdbapi.com/?s=" + q + "&apikey=9dfd4110", function (rawdata) {
+            var rawstring = JSON.stringify(rawdata);
+            data = JSON.parse(rawstring);
+            var title = data.Search[0].Title;
+            var year = data.Search[0].Year;
+            var imdburl = "https://www.imdb.com/title/" + data.Search[0].imdbID + "/";
+
+            var posterurl = data.Search[0].Poster;
+            document.getElementById('answer').innerHTML = "<h1>" + title + "</h1><br> <img src= '" + posterurl + "'><br><p> Year Released:" + year + "</p> <br> <p> IMDB page: <a href='" + imdburl + "'target='_blank'>" + imdburl + "</a></p>" + '<form method="post" action="/add"><input type="button" id="sample" value="Add to Playlist" /></form>'
+            
+            ;
+        });}
+    }
+    </script>
+    </body>
+
+    <style>
+        body {
+        background-color: #1b1f22;
+        margin: 100px 5%;
+        margin-top: 25px;
+      } 
+
+
+      .toggleSwitch span span {
+	display: none;
+}  
+  
+.toggleSwitch {
+    left: 400px;
+    bottom: 50px;
+	display: inline-block;
+	height: 18px;
+	position: relative;
+	overflow: visible;
+	padding: 0;
+	cursor: round;
+	width: 200px;
+	background-color: #fafafa;
+	border: 1px solid #ccc;
+	border-radius:5px;
+	height:34px;
+    
+}
+.toggleSwitch * {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+.toggleSwitch label,
+.toggleSwitch > span {
+	line-height: 20px;
+	height: 20px;
+	vertical-align: middle;
+}
+.toggleSwitch input:focus ~ a,
+.toggleSwitch input:focus + label {
+	outline: none;
+}
+.toggleSwitch label {
+	position: relative;
+	z-index: 3;
+	display: block;
+	width: 100%;
+}
+.toggleSwitch input {
+	position: absolute;
+	opacity: 0;
+	z-index: 5;
+}
+.toggleSwitch > span {
+	position: absolute;
+	left: 0;
+	width: calc(100% - 6px);
+	margin: 0;
+	text-align: left;
+	white-space: nowrap;
+  margin:0 3px;
+}
+.toggleSwitch > span span {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 5;
+	display: block;
+	width: 50%;
+	margin-left: 50px;
+	text-align: left;
+	font-size: 0.9em;
+	width: auto;
+	left: 0;
+	top: -1px;
+	opacity: 1;
+	width:40%;
+	text-align: center;
+  line-height:34px;
+}
+.toggleSwitch a {
+	position: absolute;
+	right: 50%;
+	z-index: 4;
+	display: block;
+	top: 3px;
+	bottom: 3px;
+	padding: 0;
+	left: 3px;
+	width: 50%;
+	background-color: rgb(67, 163, 219);
+	border-radius: 4px;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	transition: all 0.2s ease-out;
+	box-shadow: 0 1px 2px rgba(137, 135, 135, 0.05);
+}
+.toggleSwitch > span span:first-of-type {
+	color: #FFF;
+	opacity: 1;
+	left: 0;
+	margin: 0;
+    width: 50%;
+}
+.toggleSwitch > span span:last-of-type {
+	left:auto;
+	right:0;
+	color: #999;
+	margin: 0;
+    width: 50%;
+}
+.toggleSwitch > span:before {
+	content: '';
+	display: block;
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: -2px;
+	/* background-color: #fafafa;
+	border: 1px solid #ccc; */
+	border-radius: 30px;
+	-webkit-transition: all 0.2s ease-out;
+	-moz-transition: all 0.2s ease-out;
+	transition: all 0.2s ease-out;
+}
+.toggleSwitch input:checked ~ a {
+	left: calc(50% - 3px);
+}
+.toggleSwitch input:checked ~ span:before {
+	/* border-color: #0097D1;
+	box-shadow: inset 0 0 0 30px #0097D1; */
+}
+.toggleSwitch input:checked ~ span span:first-of-type {
+	left:0;
+	color:#999;
+}
+.toggleSwitch input:checked ~ span span:last-of-type {
+	/* opacity: 1;
+	color: #fff;	 */
+	color:#FFF;
+}
+/* Switch Sizes */
+.toggleSwitch.large {
+	width: 60px;
+	height: 27px;
+}
+.toggleSwitch.large a {
+	width: 27px;
+}
+.toggleSwitch.large > span {
+	height: 29px;
+	line-height: 28px;
+}
+.toggleSwitch.large input:checked ~ a {
+	left: 41px;
+}
+.toggleSwitch.large > span span {
+	font-size: 1.1em;
+}
+.toggleSwitch.large > span span:first-of-type {
+	left: 50%;
+}
+.toggleSwitch.xlarge {
+	width: 80px;
+	height: 36px;
+}
+.toggleSwitch.xlarge a {
+	width: 36px;
+}
+.toggleSwitch.xlarge > span {
+	height: 38px;
+	line-height: 37px;
+}
+.toggleSwitch.xlarge input:checked ~ a {
+	left: 52px;
+}
+.toggleSwitch.xlarge > span span {
+	font-size: 1.4em;
+}
+.toggleSwitch.xlarge > span span:first-of-type {
+	left: 50%;
+}
+
+
+
+
+
+
+
+      
+
+      form {
+        
+        background-color: #232424;
+        width: 300px;
+        height: 44px;
+        border-radius: 5px;
+        display:flex;
+        flex-direction:row;
+         align-items:center; 
+        
+      }
+
+      input {
+        all: unset;
+        font: 16px system-ui;
+        color: rgb(248, 240, 240);
+        height: 100%;
+        width: 100%;
+        padding: 6px 10px;
+        
+      }
+
+      ::placeholder {
+        color: rgb(231, 204, 204);
+        opacity: 0.7; 
+      }
+
+      svg {
+        color: rgb(255, 255, 255);
+        fill: currentColor;
+        width: 24px;
+        height: 24px;
+        padding: 10px;
+      }
+
+      button {
+        all: unset;
+        cursor: pointer;
+        width: 44px;
+        height: 44px;
+      }
+      #sample {
+        left: 200px;
+        bottom: 500px;
+        
+        background-color: rgb(61, 54, 54);
+        border: .5px solid rgb(220, 210, 212);
+        border-radius: 10px;
+        color: #fff;
+        padding: 8px;
+        width: 300px;
+        height: 40px;
+        align
+      }
+    </style>
+    </html>
