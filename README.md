@@ -1,5 +1,6 @@
 # and-action
-Movie Library web application
+Movie Library web application.
+
 This project takes data from the user and creates an account. 
 
 The user is redirected to the home page where different playlists are displayed like Marvel, DC etc. and  they can search the movies and create another playlist.
