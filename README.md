@@ -1,4 +1,4 @@
-# and-action
+# And Action!
 Movies Library web application.
 
 This project takes data from the user and creates an account.
